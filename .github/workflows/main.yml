@@ -62,11 +62,13 @@ jobs:
 
       # Get Asset Path
       - name: Get Asset Path
-        run: echo ::set-env name=ASSET_PATH::$(find packages/desktop/dist -type f -name "*.dmg")
+        id: get_asset_path
+        run: echo ::set-output name=asset_path::$(find packages/desktop/dist -type f -name "*.dmg")
 
       # Get Asset Filename
       - name: Get Asset Name
-        run: echo ::set-env name=ASSET_NAME::$(basename -- $ASSET_PATH)
+        id: get_asset_name
+        run: echo ::set-output name=asset_name::$(basename -- $ASSET_PATH)
 
       # Get Release Upload URL
       - name: Get Release
@@ -80,8 +82,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: "$ASSET_PATH"
-          asset_name: "$ASSET_NAME"
+          asset_path: ${{ steps.get_asset_path.outputs.asset_path }}
+          asset_name: ${{ steps.get_asset_name.outputs.asset_name }}
           asset_content_type: application/x-apple-diskimage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
