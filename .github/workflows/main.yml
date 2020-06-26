@@ -1,4 +1,4 @@
-name: Main CI
+name: Deployment Workflow
 
 on:
   release:
@@ -23,7 +23,7 @@ jobs:
   #         working-directory: ./packages/app
 
   build:
-    name: Build Desktop
+    name: Build macOS
     runs-on: macos-latest
     defaults:
       run:
@@ -60,10 +60,24 @@ jobs:
       - name: Build Electron App
         run: yarn workspace desktop package
 
-      # Dump Version
-      - run: echo "$RELEASE_VERSION"
+      # Get Asset Path
+      - name: Get Asset Path
+        run: echo ::set-env name=ASSET_PATH::$(find packages/desktop/dist -type f -name "*.dmg")
 
-      # Preview Electron Output
-      - run: ls packages/desktop/dist
+      # Get Asset Filename
+      - name: Get Asset Name
+        run: echo ::set-env name=ASSET_NAME::$(basename -- $ASSET_PATH)
 
+      # Get Release Upload URL
+      - name: Get Release
+        id: get_release
+        uses: bruceadams/get-release@v1
 
+      # Upload Asset To Release
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: "$ASSET_PATH"
+          asset_name: "$ASSET_NAME"
+          asset_content_type: application/x-apple-diskimage
