@@ -60,12 +60,16 @@ jobs:
       - name: Build Electron App
         run: yarn workspace desktop package
 
+      - run: echo ::set-env name=ASSET_PATH::$(find packages/desktop/dist -type f -name "*.dmg")
+
       # Get Asset Path
       - name: Get Asset Path
         id: get_asset_path
-        run: |
-          echo ::set-env name=ASSET_PATH::$(find packages/desktop/dist -type f -name "*.dmg")
-          echo ::set-output name=asset_path::$ASSET_PATH
+        run: echo ::set-output name=asset_path::$ASSET_PATH
+
+      - run: echo $ASSET_PATH
+      - run: echo ${{ steps.get_asset_path.outputs.asset_path }}
+      - run: echo ${{ steps.get_asset_name.outputs.asset_name }}
 
       # Get Asset Filename
       - name: Get Asset Name
