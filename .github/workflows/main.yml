@@ -71,7 +71,7 @@ jobs:
       # Get Release Upload URL
       - name: Get Release
         id: get_release
-        uses: bruceadams/get-release@v1
+        uses: bruceadams/get-release@v1.2.0
 
       # Upload Asset To Release
       - name: Upload Release Asset
