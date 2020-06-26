@@ -3,7 +3,7 @@ name: Main CI
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
 
