@@ -1,0 +1,32 @@
+{
+    "appId": "com.fastpbx.electrontest",
+    "productName": "Electron Test",
+    "mac": {
+      "artifactName": "Electron_Test_${version}.${ext}",
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "category": "public.app-category.business",
+      "gatekeeperAssess": false,
+      "target": [
+        "dmg"
+      ],
+      "electronLanguages": ["en"]
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 200,
+          "y": 255
+        },
+        {
+          "x": 400,
+          "y": 255,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "sign": false
+    },
+    "electronVersion": "9.0.4",
+    "publish": false
+}
