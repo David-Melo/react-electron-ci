@@ -1,5 +1,5 @@
 {
-  "name": "electron",
+  "name": "desktop",
   "version": "0.0.1",
   "description": "React On Electron",
   "private": true,
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "copyfiles": "^2.3.0",
-    "electron": "0.0.1",
+    "electron": "9.0.4",
     "electron-builder": "^22.7.0",
     "electron-notarize": "^1.0.0",
     "electron-webpack": "^2.8.2",
