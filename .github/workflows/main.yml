@@ -63,7 +63,9 @@ jobs:
       # Get Asset Path
       - name: Get Asset Path
         id: get_asset_path
-        run: echo ::set-output name=asset_path::$(find packages/desktop/dist -type f -name "*.dmg")
+        run: |
+          echo ::set-env name=ASSET_PATH::$(find packages/desktop/dist -type f -name "*.dmg")
+          echo ::set-output name=asset_path::$ASSET_PATH
 
       # Get Asset Filename
       - name: Get Asset Name
