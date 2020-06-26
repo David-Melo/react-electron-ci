@@ -28,5 +28,6 @@
       "sign": false
     },
     "electronVersion": "9.0.4",
-    "publish": false
+    "publish": false,
+    "afterSign": "scripts/notarize.js"
 }
