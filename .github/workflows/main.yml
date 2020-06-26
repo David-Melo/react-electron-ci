@@ -1,0 +1,35 @@
+name: Main CI
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+
+      # Checkout The Repo Locally
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      # Setup Env
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.14.1'
+
+      # Install Dependencies
+      - name: Install Dependencies
+        run: yarn install
+
+      # Build React App
+      - name: Build React App
+        run: yarn workspace app build
+
+
