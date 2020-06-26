@@ -7,6 +7,20 @@ on:
 
 jobs:
 
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy To Vercel Production
+        uses: amondnet/vercel-action@v19
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          working-directory: ./packages/app
+
   build:
     runs-on: ubuntu-latest
     defaults:
@@ -31,5 +45,9 @@ jobs:
       # Build React App
       - name: Build React App
         run: yarn workspace app build
+
+      # Preview Directory
+      - run: ls
+      - run: ls packages/app/build
 
 
