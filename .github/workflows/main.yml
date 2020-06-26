@@ -7,26 +7,32 @@ on:
 
 jobs:
 
-  web:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-      - name: Deploy To Vercel Production
-        uses: amondnet/vercel-action@v19
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod'
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
-          working-directory: ./packages/app
+  # web:
+  #   name: Build Web
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v2
+  #     - name: Deploy To Vercel Production
+  #       uses: amondnet/vercel-action@v19
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #         vercel-args: '--prod'
+  #         vercel-org-id: ${{ secrets.ORG_ID}}
+  #         vercel-project-id: ${{ secrets.PROJECT_ID}}
+  #         working-directory: ./packages/app
 
   build:
-    runs-on: ubuntu-latest
+    name: Build Desktop
+    runs-on: macos-latest
     defaults:
       run:
         shell: bash
     steps:
+
+      # Get The Release Version Tag
+      - name: Set Release Version
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/tags/}
 
       # Checkout The Repo Locally
       - name: Checkout Repo
@@ -46,8 +52,18 @@ jobs:
       - name: Build React App
         run: yarn workspace app build
 
-      # Preview Directory
-      - run: ls
-      - run: ls packages/app/build
+      # Build Electron App
+      - name: Build Electron App
+        run: yarn workspace desktop build
+
+      # Package Electron App
+      - name: Build Electron App
+        run: yarn workspace desktop package
+
+      # Dump Version
+      - run: echo "$RELEASE_VERSION"
+
+      # Preview Electron Output
+      - run: ls packages/desktop/dist
 
 
