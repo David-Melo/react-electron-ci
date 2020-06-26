@@ -6,5 +6,25 @@
         "packages": [
             "packages/*"
         ]
+    },
+    "devDependencies": {
+        "release-it": "^13.6.3",
+        "release-it-yarn-workspaces": "^1.4.0"
+    },
+    "scripts": {
+        "release": "release-it"
+    },
+    "release-it": {
+        "github": {
+            "release": true,
+            "changelog": "git log --pretty=format:\"* %s (%h)\" ${from}...${to}"
+        },
+        "npm": false,
+        "plugins": {
+            "release-it-yarn-workspaces": {
+                "skipChecks": true,
+                "publish": false
+            }
+        }
     }
 }
